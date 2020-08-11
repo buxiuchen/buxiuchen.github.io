@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>权重随机数</title>
+    <link href="/2020/08/07/%E6%9D%83%E9%87%8D%E9%9A%8F%E6%9C%BA%E6%95%B0/"/>
+    <url>/2020/08/07/%E6%9D%83%E9%87%8D%E9%9A%8F%E6%9C%BA%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h3 id="缘由"><a href="#缘由" class="headerlink" title="缘由"></a>缘由</h3><p>由于公司要求每年都需要做人才盘点，对同事打分，但是由于题目众多，大家都是疲于应付。随便选应付了事。受同事之托能否写脚本并且按照权重打分。为此思考了一下关于权重随机数的相关思路</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="hljs js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatConfig</span>(<span class="hljs-params">config</span>) </span>&#123;  <span class="hljs-keyword">let</span> sortArray = <span class="hljs-built_in">Object</span>.keys(config)    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> config[a] - config[b])    .reduce(<span class="hljs-function">(<span class="hljs-params">pre, cur</span>) =&gt;</span> &#123;      <span class="hljs-keyword">let</span> preValue = pre.length == <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : pre[pre.length - <span class="hljs-number">1</span>].between[<span class="hljs-number">1</span>];      <span class="hljs-keyword">return</span> [        ...pre,        &#123;          key: cur,          between: [preValue, preValue +  config[cur]]        &#125;      ];    &#125;, []);  sortArray.forEach(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> &#123;    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">$&#123;i.key&#125;</span>::::::::&gt;&gt;&gt;&gt;<span class="hljs-subst">$&#123;i.between[<span class="hljs-number">0</span>]&#125;</span>-<span class="hljs-subst">$&#123;i.between[<span class="hljs-number">1</span>]&#125;</span>`</span>);  &#125;);  <span class="hljs-keyword">return</span> sortArray;&#125;<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRandom</span>(<span class="hljs-params">sortArray</span>) </span>&#123;  <span class="hljs-keyword">let</span> random = <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">100</span>;  <span class="hljs-built_in">console</span>.log(random);  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> keys <span class="hljs-keyword">in</span> sortArray) &#123;    <span class="hljs-keyword">let</span> [min, max] = sortArray[keys].between;    <span class="hljs-keyword">if</span> (random &gt; min &amp;&amp; random &lt;= max) &#123;      <span class="hljs-keyword">return</span> sortArray[keys].key;    &#125;  &#125;&#125;<span class="hljs-keyword">let</span> sortArray = formatConfig(&#123;  <span class="hljs-string">&quot;1.0&quot;</span>: <span class="hljs-number">0</span>,  <span class="hljs-string">&quot;2.0&quot;</span>: <span class="hljs-number">0</span>,  <span class="hljs-string">&quot;3.0&quot;</span>: <span class="hljs-number">30</span>,  <span class="hljs-string">&quot;4.0&quot;</span>: <span class="hljs-number">50</span>,  <span class="hljs-string">&quot;5.0&quot;</span>: <span class="hljs-number">20</span>&#125;);$(<span class="hljs-string">&quot;.radio_option&quot;</span>).each(<span class="hljs-function">(<span class="hljs-params">i, e</span>) =&gt;</span> &#123;  <span class="hljs-keyword">let</span> score = getRandom(sortArray);  $(e)    .find(<span class="hljs-string">&quot;[type=radio]&quot;</span>)    .each(<span class="hljs-function">(<span class="hljs-params">ii, el</span>) =&gt;</span> &#123;      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">JSON</span>.parse($(el).attr(<span class="hljs-string">&quot;d-data&quot;</span>)).score == score) &#123;        $(el).prop(<span class="hljs-string">&quot;checked&quot;</span>, <span class="hljs-literal">true</span>);      &#125;    &#125;);&#125;);</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>js</tag>
+      
+      <tag>随机数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
